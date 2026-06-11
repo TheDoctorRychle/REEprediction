@@ -12,7 +12,7 @@ sys.path.insert(0, ROOT)
 
 from model.mlp import MLP
 from train.train import train_model
-from evaluate.metrics import evaluate_model, rmse as rmse_fn, mae as mae_fn, direction_accuracy as dir_acc_fn
+from evaluate.metrics import evaluate_model, rmse as rmse_fn, mae as mae_fn, mse as mse_fn, direction_accuracy as dir_acc_fn
 from utils.preprocessing import load_and_preprocess
 from models.random_forest import RandomForestModel
 from models.svm_model import SVMModel
@@ -43,6 +43,7 @@ def evaluate_sklearn(model_obj, X_test, y_test):
     y_pred = model_obj.predict(X_test)
     return {
         "mae":                mae_fn(y_test, y_pred),
+        "mse":                mse_fn(y_test, y_pred),
         "rmse":               rmse_fn(y_test, y_pred),
         "direction_accuracy": dir_acc_fn(y_test, y_pred),
     }
@@ -108,8 +109,8 @@ def draw_plot(best_rmse, tickers, models):
     os.makedirs(os.path.dirname(PLOT_PNG), exist_ok=True)
 
     x      = np.arange(len(tickers))
-    width  = 0.25
-    colors = ["#4C72B0", "#DD8452", "#55A868"]
+    width  = 0.2
+    colors = ["#4C72B0", "#DD8452", "#55A868", "#C44E52"]
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -126,7 +127,7 @@ def draw_plot(best_rmse, tickers, models):
     ax.set_ylabel("RMSE (best configuration)", fontsize=12)
     ax.set_title("Model comparison - RMSE on test set\n"
                  "(MLP vs Random Forest vs SVM vs HGB)", fontsize=13, fontweight="bold")
-    ax.set_xticks(x + width)
+    ax.set_xticks(x + width * (len(models) - 1) / 2)
     ax.set_xticklabels(tickers, fontsize=11)
     ax.legend(fontsize=10)
     ax.grid(axis="y", linestyle="--", alpha=0.5)
@@ -160,6 +161,7 @@ def compare_models():
             "model":              "MLP",
             "parameters":         f"hidden={MLP_HIDDEN} lr={MLP_LR}",
             "mae":                metrics["mae"],
+            "mse":                metrics["mse"],
             "rmse":               metrics["rmse"],
             "direction_accuracy": metrics["direction_accuracy"],
             "time_s":             round(elapsed, 3),
@@ -178,6 +180,7 @@ def compare_models():
                 "model":              "RandomForest",
                 "parameters":         f"n_est={n}",
                 "mae":                metrics["mae"],
+                "mse":                metrics["mse"],
                 "rmse":               metrics["rmse"],
                 "direction_accuracy": metrics["direction_accuracy"],
                 "time_s":             round(elapsed, 3),
@@ -198,6 +201,7 @@ def compare_models():
                 "model":              "SVM",
                 "parameters":         f"rbf C={c}",
                 "mae":                metrics["mae"],
+                "mse":                metrics["mse"],
                 "rmse":               metrics["rmse"],
                 "direction_accuracy": metrics["direction_accuracy"],
                 "time_s":             round(elapsed, 3),
@@ -218,6 +222,7 @@ def compare_models():
                 "model": "HistGradientBoosting",
                 "parameters": f"max_iter={it}",
                 "mae": metrics["mae"],
+                "mse": metrics["mse"],
                 "rmse": metrics["rmse"],
                 "direction_accuracy": metrics["direction_accuracy"],
                 "time_s": round(elapsed, 3),
@@ -241,7 +246,8 @@ def compare_models():
         for model_name, rmse_val in best_rmse[ticker].items():
             print(f"    {model_name:<15} RMSE = {rmse_val:.4f}")
 
-    draw_plot(best_rmse, list(TICKERS.keys()), ["MLP", "RandomForest", "SVM"])
+    draw_plot(best_rmse, list(TICKERS.keys()),
+              ["MLP", "RandomForest", "SVM", "HistGradientBoosting"])
 
     return all_rows, best_rmse
 

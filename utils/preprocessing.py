@@ -48,13 +48,16 @@ def chronological_split(X, y, train_ratio=0.8):
     return X_train, X_test, y_train, y_test
 
 
-def load_and_preprocess(path, train_ratio=0.8):
+def load_and_preprocess(path, train_ratio=0.8, feature_columns=None):
+    if feature_columns is None:
+        feature_columns = FEATURE_COLUMNS
+
     df = load_csv(path)
     df = add_historical_features(df)
     df = compute_target(df)
     df = df.dropna()
 
-    X = df[FEATURE_COLUMNS].values.astype(np.float64)
+    X = df[feature_columns].values.astype(np.float64)
     y = df["price_change"].values.astype(np.float64).reshape(-1, 1)
 
     X_train, X_test, y_train, y_test = chronological_split(X, y, train_ratio)
