@@ -1,14 +1,3 @@
-"""Feature ablation study - impact of the engineered features.
-
-Every model is trained with four feature sets:
-  base5      : Open, High, Low, Close, Volume
-  base5+mean : base5 + Close_mean_5  (5-day rolling mean)
-  base5+q75  : base5 + Close_q75_5   (5-day rolling 75th percentile)
-  all7       : base5 + both engineered features (current pipeline)
-
-Results: results/feature_ablation.csv + results/plots/feature_ablation.png
-"""
-
 import sys
 import os
 import time

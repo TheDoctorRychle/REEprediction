@@ -100,7 +100,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def main():
+def main_func():
     args = parse_arguments()
 
     print("=" * 60)
@@ -176,19 +176,18 @@ def main():
     print(f"  RMSE             : {metrics['rmse']:.4f}")
     print(f"  Direction acc.   : {metrics['direction_accuracy']:.1f}%")
 
-    if not args.no_plot and args.model == "mlp" and history is not None:
-        print("\nGenerating plots...")
-        files = save_all_plots(
-            model, X_test, y_test, history,
-            ticker=args.ticker,
-            hidden=args.hidden,
-            lr=args.lr,
-            epochs=args.epochs
-        )
-        print(f"  Plots saved ({len(files)} PNG files)")
+    print("\nGenerating plots...")
+    files = save_all_plots(
+        model, X_test, y_test, history,
+        ticker=args.ticker,
+        hidden=args.hidden,
+        lr=args.lr,
+        epochs=args.epochs
+    )
+    print(f"  Plots saved ({len(files)} PNG files)")
 
     print("\nDone.")
 
 
 if __name__ == "__main__":
-    main()
+    main_func()

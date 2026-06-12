@@ -1,10 +1,3 @@
-"""Prediction plots - all four models on the test set, per ticker.
-
-Each figure (results/plots/predictions_all_models_<ticker>.png) shows the
-actual next-day price change and the prediction of every model on its own
-subplot, annotated with RMSE and direction accuracy.
-"""
-
 import sys
 import os
 import numpy as np

@@ -20,9 +20,9 @@ TICKERS = {
     "KGH_WA": os.path.join(ROOT, "data", "KGH_WA.csv"),
 }
 
-HIDDEN_SIZES   = [[5], [10], [10, 5]]
-LEARNING_RATES = [0.01, 0.001]
-EPOCHS_LIST    = [100, 300, 500]
+HIDDEN_SIZES   = [[10], [25], [50], [25, 10], [50, 25]]
+LEARNING_RATES = [0.001, 0.0001, 0.00005]
+EPOCHS_LIST    = [100, 300, 500, 800]
 
 INPUT_SIZE  = 7
 OUTPUT_SIZE = 1

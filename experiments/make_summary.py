@@ -1,9 +1,3 @@
-"""Builds results/summary_tables.md - report-ready markdown tables
-from the CSV files produced by the experiment scripts.
-
-Run after: compare_models.py, param_study.py, feature_ablation.py
-"""
-
 import os
 import pandas as pd
 

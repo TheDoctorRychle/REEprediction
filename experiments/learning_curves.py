@@ -1,17 +1,3 @@
-"""Learning curves for all models.
-
-Two kinds of curves are produced for every ticker:
-
-1. MLP epoch curve - train MSE loss and test RMSE measured after every epoch
-   (results/plots/learning_curve_mlp_<ticker>.png, results/mlp_epoch_curves.csv)
-
-2. Train-size curve - every model is trained on a growing chronological
-   fraction of the training set (the most recent samples, so the train window
-   always ends right before the test window) and evaluated on the fixed test
-   set (results/plots/learning_curve_sizes_<ticker>.png,
-   results/learning_curves.csv)
-"""
-
 import sys
 import os
 import numpy as np

@@ -1,11 +1,3 @@
-"""Parameter study for all models (MLP, RandomForest, SVM, HistGradientBoosting).
-
-For each ticker and each model a grid of hyperparameters is evaluated on the
-chronological test split. Results (MAE, MSE, RMSE, direction accuracy, time)
-are stored in results/param_study.csv and one figure per model is generated
-(RMSE and direction accuracy vs. parameter, one subplot column per ticker).
-"""
-
 import sys
 import os
 import time
